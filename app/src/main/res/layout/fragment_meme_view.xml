@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:background="@color/colorBackground">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".activities.MainActivity$PlaceholderFragment">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/memeBar"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:id="@+id/linearLayout2"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView3"
+                android:src="@drawable/arrow_left"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Most Recent"
+                android:id="@+id/textView"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/text_margin" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@drawable/arrow_right"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_above="@+id/memeActionBar">
+
+            <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/memeView"
+                android:adjustViewBounds="true"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/memeBar"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:id="@+id/memeActionBar">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thumbsDown"
+                android:layout_margin="@dimen/text_margin"
+                android:background="@null"
+                android:src="@drawable/thumbs_down" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/share"
+                android:src="@drawable/share"
+                android:background="@null"
+                android:layout_margin="@dimen/text_margin" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/favourite"
+                android:src="@drawable/favourite"
+                android:background="@null"
+                android:layout_margin="@dimen/text_margin" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thumbsUp"
+                android:src="@drawable/thumbs_up"
+                android:background="@null"
+                android:layout_margin="@dimen/text_margin" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+    </ScrollView>

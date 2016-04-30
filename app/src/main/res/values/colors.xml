@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#607d8b</color>
+    <color name="colorPrimaryDark">#546e7a</color>
+    <color name="colorAccent">#b0bec5</color>
+    <color name="memeBar">#B0BEC5</color>
+</resources>

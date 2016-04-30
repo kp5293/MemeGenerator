@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/customborder"
+    android:divider="#707070"
+    android:layout_below="@+id/linearLayout2">
+
+    <ImageView android:id="@+id/memeThumb"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:gravity="left|center_vertical"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp" />
+
+</LinearLayout>
