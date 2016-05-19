@@ -2,6 +2,7 @@ package com.alejandromoran.memegeneratorpro.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +17,9 @@ import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.entities.Meme;
 import com.alejandromoran.memegeneratorpro.utils.BackendlessDBUtil;
 import com.backendless.Backendless;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +38,18 @@ public class MemeViewFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private int skip;
     private Meme meme;
+
+    @BindView(R.id.share)
+    ImageButton shareMeme;
+
+    @BindView(R.id.favourite)
+    ImageButton favourite;
+
+    @BindView(R.id.thumbsUp)
+    ImageButton thumbsUp;
+
+    @BindView(R.id.thumbsDown)
+    ImageButton thumbsDown;
 
     public MemeViewFragment() {
         // Required empty public constructor
@@ -84,6 +100,7 @@ public class MemeViewFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_meme_view, container, false);
+        ButterKnife.bind(this, rootView);
         this.skip = 0;
 
         showMeme(rootView);
@@ -93,7 +110,6 @@ public class MemeViewFragment extends Fragment {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) actionBar.getLayoutParams();
         layoutParams.setMargins(0,0,0,heightPixels);*/
 
-        ImageButton shareMeme = (ImageButton) rootView.findViewById(R.id.share);
         shareMeme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +117,6 @@ public class MemeViewFragment extends Fragment {
             }
         });
 
-        ImageButton favourite = (ImageButton) rootView.findViewById(R.id.favourite);
         favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +124,6 @@ public class MemeViewFragment extends Fragment {
             }
         });
 
-        ImageButton thumbsUp = (ImageButton) rootView.findViewById(R.id.thumbsUp);
         thumbsUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +132,6 @@ public class MemeViewFragment extends Fragment {
             }
         });
 
-        ImageButton thumbsDown = (ImageButton) rootView.findViewById(R.id.thumbsDown);
         thumbsDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

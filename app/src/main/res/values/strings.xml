@@ -40,8 +40,8 @@
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="publicMeme">Mark this meme as public</string>
     <string name="facebook_app_id">1265742023439837</string>
-    <string name="backendles_app_id">5E82E6BB-5465-A31E-FF85-6B4933D22800</string>
-    <string name="backendles_app_secret">C4B3228A-385A-1118-FFD2-FD3A77200400</string>
+    <string name="backendles_app_id">90882A41-1648-7641-FF09-181A62BF1100</string>
+    <string name="backendles_app_secret">C0C984EB-7418-E5D0-FF35-74FA413EF500</string>
     <string name="backendles_app_version">v1</string>
     <string name="ownMemes">My Gallery</string>
     <string name="myGallery">My Gallery</string>

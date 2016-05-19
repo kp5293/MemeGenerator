@@ -17,6 +17,9 @@ import com.alejandromoran.memegeneratorpro.fragments.MemeViewFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MemeViewFragment.OnFragmentInteractionListener, MemeListFragment.OnListFragmentInteractionListener {
 
     /**
@@ -29,25 +32,26 @@ public class MainActivity extends AppCompatActivity implements MemeViewFragment.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
+
+    @BindView(R.id.container)
+    ViewPager mViewPager;
+
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+
+    @BindView(R.id.adView)
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this.getApplicationContext());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        ButterKnife.bind(this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
         mAdView.loadAd(adRequest);
-
     }
 
     @Override
