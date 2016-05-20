@@ -33,11 +33,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void login(View view) {
-        Backendless.UserService.loginWithFacebook( LoginActivity.this, new AsyncCallback<BackendlessUser>()
+        Backendless.UserService.loginWithFacebook( LoginActivity.this, null, new AsyncCallback<BackendlessUser>()
         {
             @Override
             public void handleResponse( BackendlessUser loggedInUser )
             {
+                Backendless.UserService.setCurrentUser(loggedInUser);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             {
                 Log.d("DEBUG", fault.getMessage());
             }
-        } );
+        }, true );
 
     }
 

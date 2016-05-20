@@ -50,6 +50,9 @@ public class Quote extends Meme {
         return (this.image.getHeight()/2)+30;
     }
 
+    public Quote() {
+
+    }
 
     private float getMajorSentenceWidth() {
 

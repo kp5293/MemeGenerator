@@ -15,6 +15,10 @@ public class Classic extends Meme {
 
     private TextPaint strokePaint;
 
+    public Classic() {
+
+    }
+
     public Classic(AssetManager assetManager) {
         Typeface typeFace = Typeface.createFromAsset(assetManager, "impact.ttf");
         this.strokePaint = new TextPaint();

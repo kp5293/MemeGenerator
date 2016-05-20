@@ -13,11 +13,21 @@ import android.util.Log;
  */
 public abstract class Meme {
 
+    private int textSize;
     protected Bitmap image;
     protected Bitmap meme;
     protected String topText;
     protected String bottomText;
-    private int textSize;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    protected String objectId;
     protected TextPaint fillPaint;
 
     public Meme() {
@@ -28,6 +38,7 @@ public abstract class Meme {
         fillPaint.setStyle(Paint.Style.FILL);
         fillPaint.setAntiAlias(true);
     }
+
 
     public Bitmap getImage() {
         return this.image;

@@ -1,13 +1,9 @@
 package com.alejandromoran.memegeneratorpro.entities;
 
-import android.graphics.Bitmap;
-
 /**
- * Created by Ale on 23/01/2016.
+ * Created by alejandromoran on 20/05/16.
  */
-
-public class Meme {
-
+public class Memes {
 
     public String getName() {
         return name;
@@ -33,12 +29,12 @@ public class Meme {
         this.bottomText = bottomText;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setImage(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getObjectId() {
@@ -53,8 +49,6 @@ public class Meme {
     private String name;
     private String topText;
     private String bottomText;
-    private Bitmap image;
-
-
+    private String imageUrl;
 
 }

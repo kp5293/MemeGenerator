@@ -10,12 +10,13 @@ import android.widget.TextView;
 
 import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.activities.MemeViewActivity;
-import com.alejandromoran.memegeneratorpro.entities.Meme;
 import com.alejandromoran.memegeneratorpro.fragments.MemeListFragment.OnListFragmentInteractionListener;
+import com.alejandromoran.memegeneratorpro.utils.Meme;
+
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Meme} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Memes} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */

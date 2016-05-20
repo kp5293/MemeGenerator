@@ -1,12 +1,10 @@
 package com.alejandromoran.memegeneratorpro.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +12,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.alejandromoran.memegeneratorpro.R;
-import com.alejandromoran.memegeneratorpro.entities.Meme;
+import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.utils.BackendlessDBUtil;
+import com.alejandromoran.memegeneratorpro.utils.Meme;
 import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnEditorAction;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MemeViewFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MemeViewFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MemeViewFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -37,69 +34,18 @@ public class MemeViewFragment extends Fragment {
     private String mParam2;
     private OnFragmentInteractionListener mListener;
     private int skip;
-    private Meme meme;
-
-    @BindView(R.id.share)
-    ImageButton shareMeme;
-
-    @BindView(R.id.favourite)
-    ImageButton favourite;
-
-    @BindView(R.id.thumbsUp)
-    ImageButton thumbsUp;
-
-    @BindView(R.id.thumbsDown)
-    ImageButton thumbsDown;
+    private Meme memes;
 
     public MemeViewFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MemeViewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MemeViewFragment newInstance(String param1, String param2) {
-        MemeViewFragment fragment = new MemeViewFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    private void shareMeme() {
-
-       /* Meme meme = ParseDBUtil.getLastMeme(this.skip);
-        String pathofBmp = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), meme.getMemeImageBitmap(), "meme", null);
-        Uri bmpUri = Uri.parse(pathofBmp);
-        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareIntent.setType("image/png");
-        startActivity(shareIntent);*/
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_meme_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_meme_view, container, false);
         ButterKnife.bind(this, rootView);
         this.skip = 0;
 
@@ -110,54 +56,53 @@ public class MemeViewFragment extends Fragment {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) actionBar.getLayoutParams();
         layoutParams.setMargins(0,0,0,heightPixels);*/
 
-        shareMeme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareMeme();
-            }
-        });
-
-        favourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                markAsFavourite();
-            }
-        });
-
-        thumbsUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skip++;
-                showMeme(rootView);
-            }
-        });
-
-        thumbsDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skip++;
-                showMeme(rootView);
-            }
-        });
-
         return rootView;
 
     }
 
+    @OnClick(R.id.share)
+    public void shareMeme() {
+
+       /* Memes memes = ParseDBUtil.getLastMeme(this.skip);
+        String pathofBmp = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), memes.getMemeImageBitmap(), "memes", null);
+        Uri bmpUri = Uri.parse(pathofBmp);
+        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        shareIntent.setType("image/png");
+        startActivity(shareIntent);*/
+
+    }
+
+    @OnClick(R.id.favourite)
     public void markAsFavourite() {
-        BackendlessDBUtil.markAsFavourite(meme.getObjectId(), Backendless.UserService.CurrentUser().getObjectId());
+        BackendlessDBUtil.markAsFavourite(memes.getObjectId(), Backendless.UserService.CurrentUser().getObjectId());
         Toast.makeText(getContext(), "Marked as favourite", Toast.LENGTH_SHORT).show();
     }
 
+    @OnClick({R.id.thumbsDown, R.id.thumbsUp})
+    public void thumbs(View view) {
+        skip++;
+        showMeme(getView());
+    }
+
     public void showMeme(View view) {
-
-        Meme meme = BackendlessDBUtil.getLastMeme(skip);
-        if(meme != null) {
-            this.meme = meme;
-            ImageView imageView = (ImageView) view.findViewById(R.id.memeView);
-            imageView.setImageBitmap(meme.getImage());
-        }
-
+        Backendless.Persistence.of( Memes.class).find(new AsyncCallback<BackendlessCollection<Memes>>(){
+            @Override
+            public void handleResponse( BackendlessCollection<Memes> foundMemes )
+            {
+                // all Contact instances have been found
+                Log.d("BACKEND", "DATA FOUDN!!! " + String.valueOf(foundMemes.getCurrentPage().size()));
+                //this.memes = memes;
+                //ImageView imageView = (ImageView) view.findViewById(R.id.memeView);
+                //imageView.setImageBitmap(memes.getImage());
+            }
+            @Override
+            public void handleFault( BackendlessFault fault )
+            {
+                Log.d("BACKEND", " " + fault.getMessage() + " " + fault.getCode());
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {

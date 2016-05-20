@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import com.alejandromoran.memegeneratorpro.R;
-import com.alejandromoran.memegeneratorpro.entities.Meme;
+import com.alejandromoran.memegeneratorpro.utils.Meme;
+
 import java.util.ArrayList;
 import java.util.List;
 
