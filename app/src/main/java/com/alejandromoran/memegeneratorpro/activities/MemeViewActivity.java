@@ -1,25 +1,32 @@
 package com.alejandromoran.memegeneratorpro.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import com.alejandromoran.memegeneratorpro.R;
-import com.alejandromoran.memegeneratorpro.utils.BackendlessDBUtil;
+import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.utils.Meme;
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MemeViewActivity extends AppCompatActivity {
 
-    private Meme memes;
+    private Memes memes;
+
+    @BindView(R.id.memeView)
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +37,36 @@ public class MemeViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String objectId = intent.getStringExtra("objectId");
 
-        memes = BackendlessDBUtil.getMemeById(objectId);
+        Backendless.Persistence.of(Memes.class).findById(objectId, new AsyncCallback<Memes>() {
+            @Override
+            public void handleResponse(Memes response) {
+                memes = response;
+                Target target = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        imageView.setImageBitmap(bitmap);
+                        memes.setImageBitmap(bitmap);
+                    }
 
-        ImageView imageView = (ImageView) findViewById(R.id.memeView);
-        imageView.setImageBitmap(memes.getImage());
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                };
+
+                Picasso.with(MemeViewActivity.this).load(memes.getImageUrl()).into(target);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+            }
+        });
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
@@ -44,21 +77,32 @@ public class MemeViewActivity extends AppCompatActivity {
 
     @OnClick(R.id.shareMeme)
     public void shareMeme(View view) {
-        /*
-        String pathofBmp = MediaStore.Images.Media.insertImage(this.getContentResolver(), memes.getMemeImageBitmap(), "memes", null);
-        Uri bmpUri = Uri.parse(pathofBmp);
-        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareIntent.setType("image/png");
-        startActivity(shareIntent);
-        */
+        Meme.share(this, memes.getImageBitmap());
     }
 
     @OnClick(R.id.deleteMeme)
     public void deleteMeme() {
-        BackendlessDBUtil.deleteMeme(memes.getObjectId());
-        this.finish();
+        Backendless.Persistence.of(Memes.class).findById(memes.getObjectId(), new AsyncCallback<Memes>() {
+            @Override
+            public void handleResponse(Memes response) {
+                Backendless.Persistence.of(Memes.class).remove(response, new AsyncCallback<Long>() {
+                    @Override
+                    public void handleResponse(Long response) {
+                        MemeViewActivity.this.finish();
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        MemeViewActivity.this.finish();
+                    }
+                });
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                MemeViewActivity.this.finish();
+            }
+        });
     }
 
 }

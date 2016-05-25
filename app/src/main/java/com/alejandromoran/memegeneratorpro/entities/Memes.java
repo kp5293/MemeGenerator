@@ -1,5 +1,7 @@
 package com.alejandromoran.memegeneratorpro.entities;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by alejandromoran on 20/05/16.
  */
@@ -50,5 +52,25 @@ public class Memes {
     private String topText;
     private String bottomText;
     private String imageUrl;
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
+    private Bitmap imageBitmap;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    private String userId;
 
 }

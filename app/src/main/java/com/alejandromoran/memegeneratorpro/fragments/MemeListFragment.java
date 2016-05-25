@@ -5,53 +5,44 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+
 import com.alejandromoran.memegeneratorpro.R;
-import com.alejandromoran.memegeneratorpro.utils.Meme;
+import com.alejandromoran.memegeneratorpro.entities.Memes;
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MemeListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView rv;
     private List<String> ownCategories;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public MemeListFragment() {
-    }
+    @BindView(R.id.list)
+    RecyclerView recyclerView;
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static MemeListFragment newInstance(int columnCount) {
-        MemeListFragment fragment = new MemeListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
+    public MemeListFragment() {
     }
 
     @Override
     public void onResume() {
         super.onResume();
-       // rv.setAdapter(new MyMemeRecyclerViewAdapter(ParseDBUtil.getMyMemes(), mListener));
+        getMyMemes();
     }
 
     @Override
@@ -64,39 +55,44 @@ public class MemeListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_memelist_list, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        Context context = view.getContext();
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-       // recyclerView.setAdapter(new MyMemeRecyclerViewAdapter(ParseDBUtil.getMyMemes(), mListener));
+        ButterKnife.bind(this, view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        getMyMemes();
         this.rv = recyclerView;
-
         ownCategories = new ArrayList<>();
         ownCategories.add(getString(R.string.myGallery));
         ownCategories.add(getString(R.string.myFavourites));
 
-
-        ImageButton leftOwn = (ImageButton) view.findViewById(R.id.leftOwn);
-        ImageButton rightOwn = (ImageButton) view.findViewById(R.id.rightOwn);
-
-        leftOwn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadCategory();
-            }
-        });
-
-        rightOwn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadCategory();
-            }
-        });
-
         return view;
+
+    }
+
+    @OnClick({R.id.leftOwn, R.id.rightOwn})
+    public void onClick(View view) {
+        loadCategory();
+    }
+
+    public void getMyMemes() {
+
+        String whereClause = String.format("userId='%s'", Backendless.UserService.CurrentUser().getObjectId());
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause(whereClause);
+        AsyncCallback<BackendlessCollection<Memes>> callback = new AsyncCallback<BackendlessCollection<Memes>>() {
+            public void handleResponse( BackendlessCollection<Memes> memesCollection )
+            {
+                List<Memes> memesList = memesCollection.getCurrentPage();
+                recyclerView.setAdapter(new MyMemeRecyclerViewAdapter(memesList, mListener));
+            }
+            @Override
+            public void handleFault( BackendlessFault fault )
+            {
+                Log.d("DEBUG", "fault!!" + fault.toString());
+            }
+        };
+        Backendless.Persistence.of(Memes.class).find(dataQuery, callback);
 
     }
 
@@ -130,18 +126,7 @@ public class MemeListFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(Meme item);
+        void onListFragmentInteraction(Memes item);
     }
 }

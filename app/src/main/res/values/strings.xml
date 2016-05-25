@@ -10,7 +10,7 @@
     <string name="createMeme">Create Meme</string>
     <string name="title_activity_meme_view">MemeViewActivity</string>
     <string name="shareMeme">Share Meme</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="loginWithFacebook">Login with Facebook</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -25,8 +25,6 @@
         completions."
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="myMemes">My Memes</string>
     <string name="publicMemes">Public Memes</string>
     <string name="previous">Previous</string>

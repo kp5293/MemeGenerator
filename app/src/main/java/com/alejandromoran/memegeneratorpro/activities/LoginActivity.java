@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             {
                 Backendless.UserService.setCurrentUser(loggedInUser);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.finish();
                 startActivity(intent);
             }
 

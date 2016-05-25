@@ -1,55 +1,70 @@
 package com.alejandromoran.memegeneratorpro.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.activities.MemeViewActivity;
+import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.fragments.MemeListFragment.OnListFragmentInteractionListener;
 import com.alejandromoran.memegeneratorpro.utils.Meme;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Memes} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyMemeRecyclerViewAdapter extends RecyclerView.Adapter<MyMemeRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Meme> mValues;
+    private final List<Memes> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyMemeRecyclerViewAdapter(List<Meme> items, OnListFragmentInteractionListener listener) {
+    public MyMemeRecyclerViewAdapter(List<Memes> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_memelist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_memelist, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-       /* holder.mThumb.setImageBitmap(mValues.get(position).getMemeImageBitmap());
         holder.mThumb.setTag(mValues.get(position).getObjectId());
-        holder.mContentView.setText(mValues.get(position).getMemeName());*/
+        holder.mContentView.setText(mValues.get(position).getName());
+
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                holder.mThumb.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+
+        Picasso.with(holder.mView.getContext()).load(mValues.get(position).getImageUrl()).into(target);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
@@ -65,7 +80,7 @@ public class MyMemeRecyclerViewAdapter extends RecyclerView.Adapter<MyMemeRecycl
         public final View mView;
         public final ImageView mThumb;
         public final TextView mContentView;
-        public Meme mItem;
+        public Memes mItem;
 
         public ViewHolder(View view) {
 

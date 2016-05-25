@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import com.alejandromoran.memegeneratorpro.R;
+import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.fragments.MemeGeneratorFragment;
 import com.alejandromoran.memegeneratorpro.fragments.MemeListFragment;
 import com.alejandromoran.memegeneratorpro.fragments.MemeViewFragment;
@@ -19,7 +20,7 @@ import com.google.android.gms.ads.AdView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MemeViewFragment.OnFragmentInteractionListener, MemeListFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MemeListFragment.OnListFragmentInteractionListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -45,13 +46,9 @@ public class MainActivity extends AppCompatActivity implements MemeViewFragment.
         mAdView.loadAd(adRequest);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     @Override
-    public void onListFragmentInteraction(Meme item) {
+    public void onListFragmentInteraction(Memes item) {
 
     }
 

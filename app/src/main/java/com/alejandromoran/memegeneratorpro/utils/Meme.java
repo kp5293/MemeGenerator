@@ -1,10 +1,14 @@
 package com.alejandromoran.memegeneratorpro.utils;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextPaint;
 import android.util.Log;
 
@@ -39,6 +43,17 @@ public abstract class Meme {
         fillPaint.setAntiAlias(true);
     }
 
+    public static void share(Activity activity, Bitmap meme) {
+        if (meme != null) {
+            String pathofBmp = MediaStore.Images.Media.insertImage(activity.getContentResolver(), meme, "memes", null);
+            Uri bmpUri = Uri.parse(pathofBmp);
+            final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+            shareIntent.setType("image/png");
+            activity.startActivity(shareIntent);
+        }
+    }
 
     public Bitmap getImage() {
         return this.image;

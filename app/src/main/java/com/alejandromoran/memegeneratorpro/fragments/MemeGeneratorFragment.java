@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.utils.Classic;
@@ -29,7 +28,6 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
@@ -77,17 +75,6 @@ public class MemeGeneratorFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int isPublic) {
 
-                /*ParseFile file = new ParseFile("meme.png", image);
-                file.saveInBackground();
-                ParseObject imgupload = ParseObject.create("Memes");
-                imgupload.put("userId", ParseUser.getCurrentUser().getObjectId());
-                imgupload.put("name", meme.getTopText());
-                imgupload.put("quote", meme.getTopText());
-                imgupload.put("author", meme.getBottomText());
-                imgupload.put("image", file);
-                imgupload.put("isPublic", isPublic);
-                imgupload.saveInBackground();*/
-
                 Long tsLong = System.currentTimeMillis()/1000;
                 String ts = tsLong.toString();
                 String imageName = Backendless.UserService.CurrentUser().getObjectId() + ts;
@@ -101,6 +88,7 @@ public class MemeGeneratorFragment extends Fragment {
                         memes.setBottomText(meme.getBottomText());
                         memes.setName(meme.getTopText());
                         memes.setImage(backendlessFile.getFileURL());
+                        memes.setUserId(Backendless.UserService.CurrentUser().getUserId());
 
                         Backendless.Persistence.save(memes, new AsyncCallback<Memes>() {
                             public void handleResponse( Memes savedMeme )
@@ -130,7 +118,7 @@ public class MemeGeneratorFragment extends Fragment {
                     @Override
                     public void handleFault( BackendlessFault backendlessFault )
                     {
-                        Toast.makeText(getActivity(), backendlessFault.toString(), Toast.LENGTH_SHORT).show();
+                        Log.e("ERROR", "fault!!" + backendlessFault.toString());
                     }
                 });
 
@@ -141,11 +129,20 @@ public class MemeGeneratorFragment extends Fragment {
 
     }
 
-    @OnFocusChange({R.id.topText, R.id.bottomText})
-    public void onFocusChange(View v, boolean hasFocus) {
+    @OnFocusChange(R.id.topText)
+    public void onTopTextFocusChange(View v, boolean hasFocus) {
         EditText sentence = (EditText) v;
         int viewId = v.getId();
-        if (hasFocus && sentence.getText().toString().equals(getString(viewId))) {
+        if (hasFocus && sentence.getText().toString().equals(getString(R.string.topText))) {
+            sentence.setText("");
+        }
+    }
+
+    @OnFocusChange(R.id.bottomText)
+    public void onBottomTextFocusChange(View v, boolean hasFocus) {
+        EditText sentence = (EditText) v;
+        int viewId = v.getId();
+        if (hasFocus && sentence.getText().toString().equals(getString(R.string.bottomText))) {
             sentence.setText("");
         }
     }
@@ -163,25 +160,14 @@ public class MemeGeneratorFragment extends Fragment {
     }
 
     @OnClick(R.id.shareMeme)
-    public void shareMeme() {
-
-        String pathofBmp = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), meme.getMeme(), "meme", null);
-        Uri bmpUri = Uri.parse(pathofBmp);
-        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareIntent.setType("image/png");
-        startActivity(shareIntent);
-
-    }
+    public void shareMeme() { meme.share(getActivity(), meme.getMeme()); }
 
     @OnClick(R.id.memePreview)
     public void onClick(View v) {
-                /*CharSequence colors[] = new CharSequence[]{"Predefined Images", "Gallery"};
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select image from:");
-                builder.setItems(colors, new DialogInterface.OnClickListener() {
+        /*CharSequence colors[] = new CharSequence[]{"Predefined Images", "Gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select image from:");
+        builder.setItems(colors, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 1) {
