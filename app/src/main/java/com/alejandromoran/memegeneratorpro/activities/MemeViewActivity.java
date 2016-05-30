@@ -34,6 +34,16 @@ public class MemeViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meme_view);
         ButterKnife.bind(this);
 
+        showMeme();
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
+        mAdView.loadAd(adRequest);
+
+
+    }
+
+    public void showMeme() {
         Intent intent = getIntent();
         String objectId = intent.getStringExtra("objectId");
 
@@ -67,12 +77,6 @@ public class MemeViewActivity extends AppCompatActivity {
 
             }
         });
-
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
-        mAdView.loadAd(adRequest);
-
-
     }
 
     @OnClick(R.id.shareMeme)

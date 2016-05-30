@@ -33,16 +33,17 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.alejandromoran.memegeneratorpro.activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.alejandromoran.memegeneratorpro.activities.LoginActivity">
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.alejandromoran.memegeneratorpro.activities.MemeViewActivity"/>
+        <activity android:name=".activities.MemeViewActivity" />
+        <activity android:name=".activities.PrivacyPolicy"></activity>
     </application>
 
 </manifest>

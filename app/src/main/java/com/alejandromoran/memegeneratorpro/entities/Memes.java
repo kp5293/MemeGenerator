@@ -53,6 +53,16 @@ public class Memes {
     private String bottomText;
     private String imageUrl;
 
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    private boolean isPublic;
+
     public Bitmap getImageBitmap() {
         return imageBitmap;
     }

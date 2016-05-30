@@ -13,7 +13,7 @@ android {
         applicationId "com.alejandromoran.memegenerator"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 4
+        versionCode 5
         versionName "1.0"
     }
     buildTypes {
@@ -55,8 +55,9 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile 'com.backendless:backendless:3.0.8.1'
+    compile 'com.backendless:backendless:3.0.15.1'
     compile 'com.jakewharton:butterknife:8.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.kbeanie:multipicker:1.1.0@aar'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 }

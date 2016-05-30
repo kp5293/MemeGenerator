@@ -120,8 +120,9 @@ public class MemeViewFragment extends Fragment {
                             };
 
                             Picasso.with(getActivity()).load(memes.getImageUrl()).into(target);
-
-
+                        }
+                        else {
+                            Toast.makeText(getContext(),getString(R.string.noMoreMemesToShow), Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override

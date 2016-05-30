@@ -50,4 +50,8 @@
     <string name="classicMeme">Classic</string>
     <string name="pleaseRead">Please, read our</string>
     <string name="privacyPolicy">Privacy Policy</string>
+    <string name="noMoreMemesToShow">There\'s no more memes to show</string>
+    <string name="memeCreatedSuccessfully">Your meme has been successfully created</string>
+    <string name="loginError">Login error</string>
+    <string name="privacyAdvise">Meme Generator Pro is not using your personal data for any purpose more than provide an enhanced user experience.</string>
 </resources>
