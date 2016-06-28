@@ -1,2 +1,1 @@
-# MemeGeneratorPro
-
+# MemeGenerator
