@@ -28,18 +28,18 @@ public class MemeViewActivity extends AppCompatActivity {
     @BindView(R.id.memeView)
     ImageView imageView;
 
+    @BindView(R.id.adView)
+    AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meme_view);
         ButterKnife.bind(this);
-
         showMeme();
-
-        AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
         mAdView.loadAd(adRequest);
-
 
     }
 

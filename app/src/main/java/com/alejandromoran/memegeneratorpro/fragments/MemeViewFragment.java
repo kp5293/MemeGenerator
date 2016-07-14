@@ -19,6 +19,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
@@ -49,11 +50,6 @@ public class MemeViewFragment extends Fragment {
         this.offset = 0;
         showMeme();
 
-       /* int heightPixels = AdSize.SMART_BANNER.getHeightInPixels(getActivity());
-        LinearLayout actionBar = (LinearLayout) rootView.findViewById(R.id.memeActionBar);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) actionBar.getLayoutParams();
-        layoutParams.setMargins(0,0,0,heightPixels);*/
-
         return rootView;
 
     }
@@ -65,23 +61,23 @@ public class MemeViewFragment extends Fragment {
 
     @OnClick(R.id.favourite)
     public void markAsFavourite() {
-
-        Favourite favourite = new Favourite();
-        favourite.setMemeId(memes.getObjectId());
-        favourite.setUserId(Backendless.UserService.CurrentUser().getUserId());;
-        Backendless.Data.of(Favourite.class).save(favourite, new AsyncCallback<Favourite>() {
-            public void handleResponse( Favourite favourite )
-            {
-                Toast.makeText(getContext(), "Marked as favourite", Toast.LENGTH_SHORT).show();
-                showMeme();
-            }
-            @Override
-            public void handleFault( BackendlessFault fault )
-            {
-                Log.d("DEBUG", "fault!!" + fault.toString());
-            }
-        });
-
+        if (this.memes != null){
+            Favourite favourite = new Favourite();
+            favourite.setMemeId(memes.getObjectId());
+            favourite.setUserId(Backendless.UserService.CurrentUser().getUserId());;
+            Backendless.Data.of(Favourite.class).save(favourite, new AsyncCallback<Favourite>() {
+                public void handleResponse( Favourite favourite )
+                {
+                    Toast.makeText(getContext(), "Marked as favourite", Toast.LENGTH_SHORT).show();
+                    showMeme();
+                }
+                @Override
+                public void handleFault( BackendlessFault fault )
+                {
+                    Log.d("DEBUG", "fault!!" + fault.toString());
+                }
+            });
+        }
     }
 
     @OnClick({R.id.thumbsDown, R.id.thumbsUp})
@@ -90,11 +86,14 @@ public class MemeViewFragment extends Fragment {
     }
 
     public void showMeme() {
-
-        Backendless.Persistence.of(Memes.class).find(new AsyncCallback<BackendlessCollection<Memes>>() {
+        //String whereClause = "approved = true AND public = true";
+        String whereClause = "public = true";
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause(whereClause);
+        Backendless.Persistence.of(Memes.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Memes>>() {
             public void handleResponse( BackendlessCollection<Memes> pagesCollection )
             {
-                pagesCollection.getPage(1,offset++,new AsyncCallback<BackendlessCollection<Memes>>() {
+                pagesCollection.getPage(1,offset,new AsyncCallback<BackendlessCollection<Memes>>() {
                     public void handleResponse( BackendlessCollection<Memes> memesCollection )
                     {
                         List<Memes> memesList = memesCollection.getData();
@@ -106,6 +105,7 @@ public class MemeViewFragment extends Fragment {
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                     imageView.setImageBitmap(bitmap);
                                     memes.setImageBitmap(bitmap);
+                                    offset++;
                                 }
 
                                 @Override
@@ -115,11 +115,11 @@ public class MemeViewFragment extends Fragment {
 
                                 @Override
                                 public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+                                    imageView.setImageDrawable(placeHolderDrawable);
                                 }
                             };
 
-                            Picasso.with(getActivity()).load(memes.getImageUrl()).into(target);
+                            Picasso.with(getActivity()).load(memes.getImageUrl()).error(R.drawable.error).placeholder(R.drawable.progress_animation ).into(target);
                         }
                         else {
                             Toast.makeText(getContext(),getString(R.string.noMoreMemesToShow), Toast.LENGTH_SHORT).show();

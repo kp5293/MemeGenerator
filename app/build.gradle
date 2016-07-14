@@ -13,7 +13,7 @@ android {
         applicationId "com.alejandromoran.memegenerator"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 5
+        versionCode 8
         versionName "1.0"
     }
     buildTypes {
@@ -23,7 +23,7 @@ android {
         }
     }
     productFlavors {
-        free {
+        classic {
             applicationId "com.alejandromoran.memegenerator"
         }
         pro {

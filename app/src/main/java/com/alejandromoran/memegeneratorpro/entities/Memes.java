@@ -1,11 +1,22 @@
 package com.alejandromoran.memegeneratorpro.entities;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * Created by alejandromoran on 20/05/16.
  */
 public class Memes {
+
+    private String userId;
+    private String objectId;
+    private String name;
+    private String topText;
+    private String bottomText;
+    private String imageUrl;
+    private boolean isApproved;
+    private Bitmap imageBitmap;
+    private boolean isPublic;
 
     public String getName() {
         return name;
@@ -47,21 +58,23 @@ public class Memes {
         this.objectId = objectId;
     }
 
-    private String objectId;
-    private String name;
-    private String topText;
-    private String bottomText;
-    private String imageUrl;
+    public void setApproved(boolean approved) {
+        isApproved = approved;
+    }
+
+    public boolean isApproved() {
+        return this.isApproved;
+    }
 
     public boolean isPublic() {
-        return isPublic;
+
+        Log.d("DEBUG", "isPublic inside Memes? -> " + this.isPublic);
+        return this.isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
-
-    private boolean isPublic;
 
     public Bitmap getImageBitmap() {
         return imageBitmap;
@@ -71,8 +84,6 @@ public class Memes {
         this.imageBitmap = imageBitmap;
     }
 
-    private Bitmap imageBitmap;
-
     public String getUserId() {
         return userId;
     }
@@ -81,6 +92,5 @@ public class Memes {
         this.userId = userId;
     }
 
-    private String userId;
 
 }

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -38,7 +39,11 @@ import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -83,7 +88,15 @@ public class MemeGeneratorFragment extends Fragment {
         imagePickerCallback = new ImagePickerCallback(){
             @Override
             public void onImagesChosen(List<ChosenImage> images) {
-                meme.setImage(BitmapFactory.decodeFile(images.get(0).getOriginalPath()));
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(images.get(0).getOriginalPath(), options);
+                int imageHeight = options.outHeight;
+                int imageWidth = options.outWidth;
+                String imageType = options.outMimeType;
+                BitmapFactory.Options options2 = new BitmapFactory.Options();
+                options2.inSampleSize = calculateInSampleSize(options,500,500);
+                meme.setImage(BitmapFactory.decodeFile(images.get(0).getOriginalPath(), options2));
                 previewImage();
             }
 
@@ -96,16 +109,39 @@ public class MemeGeneratorFragment extends Fragment {
         return rootView;
     }
 
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
     @OnClick(R.id.saveMeme)
     public void saveMeme() {
 
-        CharSequence colors[] = new CharSequence[]{"Yes", "No"};
+        CharSequence choices[] = new CharSequence[]{"No", "Yes"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getString(R.string.publicMeme));
-        builder.setItems(colors, new DialogInterface.OnClickListener() {
+        builder.setItems(choices, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, final int isPublic) {
+            public void onClick(DialogInterface dialog, final int choice) {
 
                 Long tsLong = System.currentTimeMillis()/1000;
                 String ts = tsLong.toString();
@@ -115,31 +151,28 @@ public class MemeGeneratorFragment extends Fragment {
                     @Override
                     public void handleResponse( final BackendlessFile backendlessFile )
                     {
+
+                        boolean isPublic = false;
+                        if (choice == 0) {
+                            isPublic = false;
+                        }
+                        else {
+                            isPublic = true;
+                        }
                         Memes memes = new Memes();
                         memes.setTopText(meme.getTopText());
                         memes.setBottomText(meme.getBottomText());
                         memes.setName(meme.getTopText());
                         memes.setImage(backendlessFile.getFileURL());
                         memes.setUserId(Backendless.UserService.CurrentUser().getUserId());
-                        memes.setPublic(Boolean.valueOf(String.valueOf(isPublic)));
+                        memes.setPublic(isPublic);
+
+                        Log.d("DEBUG", "isPublic -> " + isPublic);
 
                         Backendless.Persistence.save(memes, new AsyncCallback<Memes>() {
                             public void handleResponse( Memes savedMeme )
                             {
-                                Log.d("DEBUG", "savedMeme: " + savedMeme.toString());
-                                Backendless.Persistence.save( savedMeme, new AsyncCallback<Memes>() {
-                                    @Override
-                                    public void handleResponse(Memes response)
-                                    {
-                                        Toast.makeText(getContext(), getString(R.string.memeCreatedSuccessfully), Toast.LENGTH_SHORT).show();
-                                        getActivity().getSupportFragmentManager().beginTransaction().remove(MemeGeneratorFragment.this).commit();
-                                    }
-                                    @Override
-                                    public void handleFault( BackendlessFault fault )
-                                    {
-                                        Log.d("DEBUG", "fault!!" + fault.toString());
-                                    }
-                                } );
+                                Toast.makeText(getActivity(), getString(R.string.memeCreatedSuccessfully), Toast.LENGTH_SHORT).show();
                             }
                             @Override
                             public void handleFault( BackendlessFault fault )
@@ -160,8 +193,8 @@ public class MemeGeneratorFragment extends Fragment {
         });
         builder.show();
 
-
     }
+
 
     @OnFocusChange(R.id.topText)
     public void onTopTextFocusChange(View v, boolean hasFocus) {
@@ -183,8 +216,10 @@ public class MemeGeneratorFragment extends Fragment {
 
     @OnTextChanged(R.id.topText)
     public void onTopTextChanged(CharSequence s, int start, int before, int count) {
-        meme.setTopText(s.toString());
-        previewImage();
+        if(!s.equals(getString(R.string.topText))){
+            meme.setTopText(s.toString());
+            previewImage();
+        }
     }
 
     @OnFocusChange(R.id.topText)
@@ -201,11 +236,13 @@ public class MemeGeneratorFragment extends Fragment {
 
     @OnTextChanged(R.id.bottomText)
     public void onBottomTextChanged(CharSequence s, int start, int before, int count) {
-        meme.setBottomText(s.toString());
-        previewImage();
+        if(!s.equals(getString(R.string.bottomText))){
+            meme.setBottomText(s.toString());
+            previewImage();
+        }
     }
 
-    @OnFocusChange(R.id.topText)
+    @OnFocusChange(R.id.bottomText)
     public void onBottomTextFocusChanged(View view, boolean hasFocus) {
         if (!hasFocus) {
             EditText editText = (EditText) getActivity().findViewById(R.id.bottomText);

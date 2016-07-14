@@ -32,9 +32,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +40,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MemeViewActivity" />
-        <activity android:name=".activities.PrivacyPolicy"></activity>
+        <activity android:name=".activities.PrivacyPolicy" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_mainx"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

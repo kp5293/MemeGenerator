@@ -35,7 +35,7 @@
         <item>Popular</item>
     </string-array>
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-9635316423164356/7430602168</string>
     <string name="publicMeme">Mark this memes as public</string>
     <string name="facebook_app_id">1265742023439837</string>
     <string name="backendles_app_id">90882A41-1648-7641-FF09-181A62BF1100</string>
@@ -54,4 +54,7 @@
     <string name="memeCreatedSuccessfully">Your meme has been successfully created</string>
     <string name="loginError">Login error</string>
     <string name="privacyAdvise">Meme Generator Pro is not using your personal data for any purpose more than provide an enhanced user experience.</string>
+    <string name="errorLoadingImage">Error while loading image</string>
+    <string name="title_activity_mainx">MainxActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
