@@ -1,6 +1,5 @@
 language: android
 before_install:
-before_install:
  - chmod +x gradlew
 android:
   components:
@@ -25,3 +24,5 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-19
     - sys-img-x86-android-17
+ after_success:
+  - bash <(curl -s https://codecov.io/bash)
