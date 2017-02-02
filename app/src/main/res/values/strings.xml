@@ -12,19 +12,6 @@
     <string name="shareMeme">Share Meme</string>
     <string name="loginWithFacebook">Login with Facebook</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-
     <string name="myMemes">My Memes</string>
     <string name="publicMemes">Public Memes</string>
     <string name="previous">Previous</string>
@@ -35,12 +22,13 @@
         <item>Popular</item>
     </string-array>
 
-    <string name="banner_ad_unit_id">ca-app-pub-9635316423164356/7430602168</string>
+    <string name="banner_ad_unit_id"></string>
     <string name="publicMeme">Mark this memes as public</string>
-    <string name="facebook_app_id">1265742023439837</string>
-    <string name="backendles_app_id">90882A41-1648-7641-FF09-181A62BF1100</string>
-    <string name="backendles_app_secret">C0C984EB-7418-E5D0-FF35-74FA413EF500</string>
-    <string name="backendles_app_version">v1</string>
+    <string name="facebook_app_id"></string>
+    <string name="facebook_application_id" translatable="false"></string>
+    <string name="facebook_login_protocol_scheme" translatable="false"></string>
+    <string name="twitter_consumer_key" translatable="false"></string>
+    <string name="twitter_consumer_secret" translatable="false"></string>
     <string name="ownMemes">My Gallery</string>
     <string name="myGallery">My Gallery</string>
     <string name="myFavourites">Favourites</string>
@@ -55,6 +43,9 @@
     <string name="loginError">Login error</string>
     <string name="privacyAdvise">Meme Generator Pro is not using your personal data for any purpose more than provide an enhanced user experience.</string>
     <string name="errorLoadingImage">Error while loading image</string>
-    <string name="title_activity_mainx">MainxActivity</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="sign_in_cancelled">Sign in cancelled</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_sign_in_response">Unknown sign in response</string>
 </resources>

@@ -1,20 +1,13 @@
 package com.alejandromoran.memegeneratorpro.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Camera;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,22 +23,12 @@ import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.utils.Classic;
 import com.alejandromoran.memegeneratorpro.utils.Meme;
 import com.alejandromoran.memegeneratorpro.utils.Quote;
-import com.backendless.Backendless;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.files.BackendlessFile;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.io.IOError;
-import java.io.IOException;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
@@ -145,8 +128,8 @@ public class MemeGeneratorFragment extends Fragment {
 
                 Long tsLong = System.currentTimeMillis()/1000;
                 String ts = tsLong.toString();
-                String imageName = Backendless.UserService.CurrentUser().getObjectId() + ts;
-                Backendless.Files.Android.upload( meme.getMeme(), Bitmap.CompressFormat.PNG, 100, imageName, "memes" , new AsyncCallback<BackendlessFile>()
+                //String imageName = Backendless.UserService.CurrentUser().getObjectId() + ts;
+                /*Backendless.Files.Android.upload( meme.getMeme(), Bitmap.CompressFormat.PNG, 100, imageName, "memes" , new AsyncCallback<BackendlessFile>()
                 {
                     @Override
                     public void handleResponse( final BackendlessFile backendlessFile )
@@ -188,7 +171,7 @@ public class MemeGeneratorFragment extends Fragment {
                         Log.e("ERROR", "fault!!" + backendlessFault.toString());
                     }
                 });
-
+*/
             }
         });
         builder.show();

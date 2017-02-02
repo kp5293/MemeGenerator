@@ -120,3 +120,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+app/google-services.json

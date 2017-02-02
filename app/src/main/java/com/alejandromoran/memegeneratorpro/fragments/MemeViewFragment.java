@@ -15,16 +15,8 @@ import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.entities.Favourite;
 import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.utils.Meme;
-import com.backendless.Backendless;
-import com.backendless.BackendlessCollection;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
-
-import java.io.IOException;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +54,7 @@ public class MemeViewFragment extends Fragment {
     @OnClick(R.id.favourite)
     public void markAsFavourite() {
         if (this.memes != null){
-            Favourite favourite = new Favourite();
+           /* Favourite favourite = new Favourite();
             favourite.setMemeId(memes.getObjectId());
             favourite.setUserId(Backendless.UserService.CurrentUser().getUserId());;
             Backendless.Data.of(Favourite.class).save(favourite, new AsyncCallback<Favourite>() {
@@ -76,7 +68,7 @@ public class MemeViewFragment extends Fragment {
                 {
                     Log.d("DEBUG", "fault!!" + fault.toString());
                 }
-            });
+            });*/
         }
     }
 
@@ -88,7 +80,7 @@ public class MemeViewFragment extends Fragment {
     public void showMeme() {
         //String whereClause = "approved = true AND public = true";
         String whereClause = "public = true";
-        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        /*BackendlessDataQuery dataQuery = new BackendlessDataQuery();
         dataQuery.setWhereClause(whereClause);
         Backendless.Persistence.of(Memes.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Memes>>() {
             public void handleResponse( BackendlessCollection<Memes> pagesCollection )
@@ -137,7 +129,7 @@ public class MemeViewFragment extends Fragment {
             {
                 Log.d("DEBUG", "fault!!" + fault.toString());
             }
-        });
+        });*/
     }
 
 }

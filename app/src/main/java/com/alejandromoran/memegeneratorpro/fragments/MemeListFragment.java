@@ -9,18 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.entities.Memes;
-import com.backendless.Backendless;
-import com.backendless.BackendlessCollection;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -77,7 +69,7 @@ public class MemeListFragment extends Fragment {
 
     public void getMyMemes() {
 
-        String whereClause = String.format("userId='%s'", Backendless.UserService.CurrentUser().getObjectId());
+       /* String whereClause = String.format("userId='%s'", Backendless.UserService.CurrentUser().getObjectId());
         BackendlessDataQuery dataQuery = new BackendlessDataQuery();
         dataQuery.setWhereClause(whereClause);
         AsyncCallback<BackendlessCollection<Memes>> callback = new AsyncCallback<BackendlessCollection<Memes>>() {
@@ -92,7 +84,7 @@ public class MemeListFragment extends Fragment {
                 Log.d("DEBUG", "fault!!" + fault.toString());
             }
         };
-        Backendless.Persistence.of(Memes.class).find(dataQuery, callback);
+        Backendless.Persistence.of(Memes.class).find(dataQuery, callback);*/
 
     }
 

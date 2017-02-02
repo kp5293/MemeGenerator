@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ import android.content.Context;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.content.res.Resources.Theme;
 import android.widget.TextView;
+
+import com.alejandromoran.memegeneratorpro.BuildConfig;
 import com.alejandromoran.memegeneratorpro.R;
 import com.alejandromoran.memegeneratorpro.entities.Memes;
 import com.alejandromoran.memegeneratorpro.fragments.MemeGeneratorFragment;
@@ -37,8 +40,10 @@ public class MainActivity extends AppCompatActivity implements MemeListFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
-        mAdView.loadAd(adRequest);
+        if (BuildConfig.FLAVOR.equals("classic")) {
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("EF4399DF4740B660198FF48DBDB7AFFC").build();
+            mAdView.loadAd(adRequest);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.logo);
         setSupportActionBar(toolbar);
