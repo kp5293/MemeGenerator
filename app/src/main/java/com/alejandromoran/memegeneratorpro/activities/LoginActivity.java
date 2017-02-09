@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
-
 import com.alejandromoran.memegeneratorpro.BuildConfig;
 import com.alejandromoran.memegeneratorpro.R;
 import com.facebook.FacebookSdk;
@@ -20,15 +17,11 @@ import com.firebase.ui.auth.ResultCodes;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.Arrays;
-
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
-    private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "LoginActivity";
 
@@ -38,15 +31,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            //startActivity(SignedInActivity.createIntent(this, null));
-            //finish();
-            Toast.makeText(this, "already logged in", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
         else {
             startActivityForResult (
                     AuthUI. getInstance ()
                             .createSignInIntentBuilder()
-                            .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                            .setProviders(Arrays.asList(
                                     new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
                                     new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
                                     new AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build()))
@@ -55,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     RC_SIGN_IN);
         }
 
-        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
@@ -68,12 +60,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
-                //startActivity(SignedInActivity.createIntent(this, response));
-                Toast.makeText(this, "success logged in", Toast.LENGTH_LONG).show();
-                //finish();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
                 return;
             } else {
                 // Sign in failed
+                Log.d("DEBUG", String.valueOf(response.getErrorCode()));
                 if (response == null) {
                     // User pressed back button
                     showSnackbar(R.string.sign_in_cancelled);
@@ -106,25 +99,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    }
-
-    @OnClick(R.id.facebookLogin)
-    public void facebookLogin(View view) {
-
-    }
-
-    @OnClick(R.id.twitterLogin)
-    public void twitterLogin(View view) {
-    }
-
-    @OnClick(R.id.googlePlusLogin)
-    public void googlePlusLogin(View view) {
-    }
-
-    @OnClick(R.id.privacyPolicy)
-    public void privacyPolicy(View view) {
-        Intent intent = new Intent(this, PrivacyPolicy.class);
-        startActivity(intent);
     }
 
 }

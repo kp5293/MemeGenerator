@@ -22,13 +22,13 @@
         <item>Popular</item>
     </string-array>
 
-    <string name="banner_ad_unit_id"></string>
+    <string name="banner_ad_unit_id">ca-app-pub-9635316423164356/7430602168</string>
     <string name="publicMeme">Mark this memes as public</string>
-    <string name="facebook_app_id"></string>
-    <string name="facebook_application_id" translatable="false"></string>
-    <string name="facebook_login_protocol_scheme" translatable="false"></string>
-    <string name="twitter_consumer_key" translatable="false"></string>
-    <string name="twitter_consumer_secret" translatable="false"></string>
+    <string name="facebook_app_id">1265742023439837</string>
+    <string name="facebook_application_id" translatable="false">1265742023439837</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1265742023439837</string>
+    <string name="twitter_consumer_key" translatable="false">plzWU01vwG00e1ZZoirkADPu4</string>
+    <string name="twitter_consumer_secret" translatable="false">jjVHb5vnoVxrqlgxL01G77nJ0s8jHYQF0gbnNB2RamFMTF6MV9</string>
     <string name="ownMemes">My Gallery</string>
     <string name="myGallery">My Gallery</string>
     <string name="myFavourites">Favourites</string>
@@ -48,4 +48,8 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">Unknown error</string>
     <string name="unknown_sign_in_response">Unknown sign in response</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
