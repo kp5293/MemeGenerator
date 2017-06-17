@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.alejandromoran.memegeneratorpro.R;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,6 +75,10 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
